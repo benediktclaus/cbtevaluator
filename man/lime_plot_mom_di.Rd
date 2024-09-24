@@ -19,9 +19,11 @@ The data supplied must contain the column `momdi_total`.
 }
 \seealso{
 Other plotters: 
+\code{\link{lime_plot_ies_r}()},
 \code{\link{lime_plot_mom_ai}()},
 \code{\link{lime_plot_oci_r}()},
 \code{\link{lime_plot_therapieerfolg}()},
+\code{\link{lime_plot_wai_sr}()},
 \code{\link{lime_plot_who_5}()}
 }
 \concept{plotters}

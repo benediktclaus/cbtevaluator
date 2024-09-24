@@ -193,6 +193,16 @@ lime_plot_therapieerfolg <- function(data) {
 }
 
 
+#' Plot results of the IES-R
+#'
+#' The data supplied must contain the columns `iesr_intrusion`, `iesr_vermeidung`, and `iesr_hyperarousal`.
+#'
+#' @param data A tibble
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
 lime_plot_ies_r <- function(data) {
   tidied_data <- data |>
     dplyr::select(date, iesr_intrusion, iesr_vermeidung, iesr_hyperarousal) |>
@@ -211,6 +221,38 @@ lime_plot_ies_r <- function(data) {
     ggplot2::geom_point() +
     ggplot2::facet_wrap(~ subscale) +
     ggplot2::labs(x = "Datum", y = "Summenwert", title = "Impact of Event Scale - Revised", subtitle = "Reaktion auf belastende Ereignisse")
+}
+
+
+#' Plot results of the WAI-SR
+#'
+#' The data supplied must contain the columns `waisr_bond`, `waisr_tasks`, `waisr_goals`.
+#'
+#' @param data A tibble
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_wai_sr <- function(data) {
+  tidied_data <- data |>
+    dplyr::select(date, waisr_bond, waisr_tasks, waisr_goals) |>
+    tidyr::pivot_longer(
+      cols = -date,
+      names_to = "subscale",
+      values_to = "score",
+      names_prefix = "waisr_"
+    ) |>
+    dplyr::mutate(
+      subscale = snakecase::to_title_case(subscale),
+      subscale = forcats::fct_relevel(subscale, "Bond", "Tasks")
+    )
+
+  ggplot2::ggplot(tidied_data, ggplot2::aes(date, score)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::facet_wrap(~ subscale) +
+    ggplot2::labs(x = "Datum", y = "Summenwert", title = "Working Alliance Inventory - Short Revised", subtitle = "Einsch\u00e4tzung der Therapiebeziehung")
 }
 
 

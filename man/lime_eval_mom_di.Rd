@@ -22,6 +22,7 @@ Other evaluators:
 \code{\link{lime_eval_mom_ai}()},
 \code{\link{lime_eval_oci_r}()},
 \code{\link{lime_eval_therapieerfolg}()},
+\code{\link{lime_eval_wai_sr}()},
 \code{\link{lime_eval_who_5}()}
 }
 \concept{evaluators}

@@ -126,6 +126,27 @@ lime_eval_ies_r <- function(data) {
 }
 
 
+#' Evaluate the WAI-SR
+#'
+#' Items must be named `waisr_<item_number>` in order to evaluate the instrument. Subscales are calculated (bond, tasks, goals).
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_wai_sr <- function(data) {
+  data |>
+    dplyr::select(dplyr::starts_with("waisr_")) |>
+    dplyr::mutate(
+      waisr_bond = rowSums(dplyr::across(dplyr::num_range("waisr_", c(3, 5, 7, 9)))),
+      waisr_tasks = rowSums(dplyr::across(dplyr::num_range("waisr_", c(1, 2, 10, 12)))),
+      waisr_goals = rowSums(dplyr::across(dplyr::num_range("waisr_", c(4, 6, 8, 11))))
+    )
+}
+
+
 
 #' Get dates column from a dataframe
 #'

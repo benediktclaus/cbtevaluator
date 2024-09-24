@@ -15,6 +15,7 @@ Imports:
     base64enc,
     cli,
     dplyr,
+    forcats,
     ggplot2,
     httr2,
     janitor,

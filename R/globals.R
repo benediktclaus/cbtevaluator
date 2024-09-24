@@ -24,5 +24,7 @@ globalVariables(unique(c(
   # lime_plot_instruments:
   "filename",
   # lime_plot_ies_r:
-  "iesr_hyperarousal", "iesr_intrusion", "iesr_vermeidung", "score", "subscale"
+  "iesr_hyperarousal", "iesr_intrusion", "iesr_vermeidung", "score", "subscale",
+  # lime_plot_wai_sr:
+  "waisr_bond", "waisr_goals", "waisr_tasks"
 )))
