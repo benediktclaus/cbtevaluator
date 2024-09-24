@@ -256,6 +256,29 @@ lime_plot_wai_sr <- function(data) {
 }
 
 
+#' Plot results of the BDI-II
+#'
+#' The data supplied must contain the column `bdi_ii_total`.
+#'
+#' @inheritParams .plot_single_results
+#' @param ... Additional arguments passed to .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_bdi_ii <- function(data, ...) {
+  .plot_single_results(
+    data,
+    variable = bdi_ii_total,
+    ylab = "Summenwert",
+    title = "Beck Depression Inventory - II",
+    subtitle = "Depressivit\u00e4t",
+    ...
+  )
+}
+
+
 .get_plotter_list <- function(instruments) {
   plotters <- instruments |>
     dplyr::mutate(

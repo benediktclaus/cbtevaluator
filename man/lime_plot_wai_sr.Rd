@@ -17,6 +17,7 @@ The data supplied must contain the columns `waisr_bond`, `waisr_tasks`, `waisr_g
 }
 \seealso{
 Other plotters: 
+\code{\link{lime_plot_bdi_ii}()},
 \code{\link{lime_plot_ies_r}()},
 \code{\link{lime_plot_mom_ai}()},
 \code{\link{lime_plot_mom_di}()},

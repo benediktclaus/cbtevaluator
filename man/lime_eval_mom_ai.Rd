@@ -18,6 +18,7 @@ in variable `momai_total`
 }
 \seealso{
 Other evaluators: 
+\code{\link{lime_eval_bdi_ii}()},
 \code{\link{lime_eval_ies_r}()},
 \code{\link{lime_eval_mom_di}()},
 \code{\link{lime_eval_oci_r}()},

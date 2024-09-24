@@ -17,6 +17,7 @@ Items must be named `iesr_<item_number>` in order to evaluate the instrument. Su
 }
 \seealso{
 Other evaluators: 
+\code{\link{lime_eval_bdi_ii}()},
 \code{\link{lime_eval_mom_ai}()},
 \code{\link{lime_eval_mom_di}()},
 \code{\link{lime_eval_oci_r}()},

@@ -19,6 +19,7 @@ The data supplied must contain columns `therapieerfolg`,
 }
 \seealso{
 Other plotters: 
+\code{\link{lime_plot_bdi_ii}()},
 \code{\link{lime_plot_ies_r}()},
 \code{\link{lime_plot_mom_ai}()},
 \code{\link{lime_plot_mom_di}()},

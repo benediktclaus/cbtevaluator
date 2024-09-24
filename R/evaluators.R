@@ -147,6 +147,27 @@ lime_eval_wai_sr <- function(data) {
 }
 
 
+#' Evaluate the BDI-II
+#'
+#' Items must be named `bdi_<item_number>` in order to evaluate the instrument. A total score is calculated as the item sum.
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_bdi_ii <- function(data) {
+  data |>
+    dplyr::select(dplyr::starts_with("bdi")) |>
+    dplyr::rename_with(\(a) stringr::str_replace(a, "(bdi)(\\d*)", "\\1_ii_\\2")) |>
+    dplyr::mutate(
+      dplyr::across(dplyr::where(is.character), \(a) readr::parse_number(a)),
+      bdi_ii_total = rowSums(dplyr::across(dplyr::everything()))
+    )
+}
+
+
 
 #' Get dates column from a dataframe
 #'

@@ -26,5 +26,7 @@ globalVariables(unique(c(
   # lime_plot_ies_r:
   "iesr_hyperarousal", "iesr_intrusion", "iesr_vermeidung", "score", "subscale",
   # lime_plot_wai_sr:
-  "waisr_bond", "waisr_goals", "waisr_tasks"
+  "waisr_bond", "waisr_goals", "waisr_tasks",
+  # lime_plot_bdi_ii:
+  "bdi_ii_total"
 )))

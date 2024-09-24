@@ -19,6 +19,7 @@ The data supplied must contain the column `ocir_total`.
 }
 \seealso{
 Other plotters: 
+\code{\link{lime_plot_bdi_ii}()},
 \code{\link{lime_plot_ies_r}()},
 \code{\link{lime_plot_mom_ai}()},
 \code{\link{lime_plot_mom_di}()},
