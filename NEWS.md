@@ -1,3 +1,6 @@
+# cbtevaluator 1.3.0
+* Include BDI-II
+
 # cbtevaluator 1.2.0
 * Include WAI-SR
 
