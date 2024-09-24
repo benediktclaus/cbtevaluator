@@ -18,6 +18,7 @@ in variable `momdi_total`
 }
 \seealso{
 Other evaluators: 
+\code{\link{lime_eval_ies_r}()},
 \code{\link{lime_eval_mom_ai}()},
 \code{\link{lime_eval_oci_r}()},
 \code{\link{lime_eval_therapieerfolg}()},

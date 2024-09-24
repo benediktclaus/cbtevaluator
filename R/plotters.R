@@ -13,18 +13,18 @@
 #'
 #' @return A `ggplot2` object
 .plot_single_results <- function(data,
-                          variable,
-                          ylab = "Wert",
-                          title = "Instrumentenname",
-                          subtitle,
-                          xlab = "Datum",
-                          ymax = NULL) {
-    ggplot2::ggplot(data, ggplot2::aes(date, {{ variable }})) +
-        ggplot2::geom_line() +
-        ggplot2::geom_point() +
-        ggplot2::scale_x_date(labels = scales::label_date_short()) +
-        ggplot2::expand_limits(y = c(0, ymax)) +
-        ggplot2::labs(x = xlab, y = ylab, title = title, subtitle = subtitle)
+                                 variable,
+                                 ylab = "Wert",
+                                 title = "Instrumentenname",
+                                 subtitle,
+                                 xlab = "Datum",
+                                 ymax = NULL) {
+  ggplot2::ggplot(data, ggplot2::aes(date, {{ variable }})) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::scale_x_date(labels = scales::label_date_short()) +
+    ggplot2::expand_limits(y = c(0, ymax)) +
+    ggplot2::labs(x = xlab, y = ylab, title = title, subtitle = subtitle)
 }
 
 
@@ -40,14 +40,14 @@
 #' @return A `ggplot2` object
 #' @export
 lime_plot_mom_di <- function(data, ...) {
-    .plot_single_results(
-      data,
-      variable = momdi_total,
-      ylab = "Summenwert",
-      title = "Mind of Mood-Depression Inventory",
-      subtitle = "Depressivit\u00e4t",
-      ...
-    )
+  .plot_single_results(
+    data,
+    variable = momdi_total,
+    ylab = "Summenwert",
+    title = "Mind of Mood-Depression Inventory",
+    subtitle = "Depressivit\u00e4t",
+    ...
+  )
 }
 
 
@@ -63,14 +63,14 @@ lime_plot_mom_di <- function(data, ...) {
 #' @return A `ggplot2` object
 #' @export
 lime_plot_mom_ai <- function(data, ...) {
-    .plot_single_results(
-      data,
-      variable = momai_total,
-      ylab = "Summenwert",
-      title = "Mind of Mood-Anxiety Inventory",
-      subtitle = "Angst",
-      ...
-    )
+  .plot_single_results(
+    data,
+    variable = momai_total,
+    ylab = "Summenwert",
+    title = "Mind of Mood-Anxiety Inventory",
+    subtitle = "Angst",
+    ...
+  )
 }
 
 
@@ -86,15 +86,15 @@ lime_plot_mom_ai <- function(data, ...) {
 #' @return A `ggplot2` object
 #' @export
 lime_plot_who_5 <- function(data, ...) {
-    .plot_single_results(
-      data,
-      variable = who5_total,
-      ylab = "Gesamtwert",
-      title = "WHO-5",
-      subtitle = "Fragebogen zum Wohlbefinden",
-      ymax = 100,
-      ...
-    )
+  .plot_single_results(
+    data,
+    variable = who5_total,
+    ylab = "Gesamtwert",
+    title = "WHO-5",
+    subtitle = "Fragebogen zum Wohlbefinden",
+    ymax = 100,
+    ...
+  )
 }
 
 
@@ -110,14 +110,14 @@ lime_plot_who_5 <- function(data, ...) {
 #' @return A `ggplot2` object
 #' @export
 lime_plot_oci_r <- function(data, ...) {
-    .plot_single_results(
-      data,
-      variable = ocir_total,
-      ylab = "Gesamtwert",
-      title = "OCI-R",
-      subtitle = "Fragebogen zur Erfassung von Zwangssymptomen",
-      ...
-    )
+  .plot_single_results(
+    data,
+    variable = ocir_total,
+    ylab = "Gesamtwert",
+    title = "OCI-R",
+    subtitle = "Fragebogen zur Erfassung von Zwangssymptomen",
+    ...
+  )
 }
 
 
@@ -135,73 +135,94 @@ lime_plot_oci_r <- function(data, ...) {
 #' @return A `ggplot2` object
 #' @export
 lime_plot_therapieerfolg <- function(data) {
-    tidied_data <- data |>
-        dplyr::select(date, therapieerfolg:belastung_familienleben) |>
-        tidyr::pivot_longer(
-            cols = -date,
-            names_to = "outcome"
-        ) |>
-        dplyr::mutate(
-            facet = dplyr::case_when(
-                outcome == "therapieerfolg" ~ "therapieerfolg",
-                stringr::str_detect(outcome, "belastung") ~ "belastung"
-            ),
-            outcome = stringr::str_remove(outcome, "belastung_"),
-            outcome = snakecase::to_title_case(outcome),
-            outcome = dplyr::case_match(
-                outcome,
-                "Arbeitausbildung" ~ "Arbeit/Ausbildung",
-                "Freizeitsozialleben" ~ "Freizeit/Sozialleben",
-                "Familienleben" ~ "Familienleben/H\u00e4uslich"
-            )
-        )
-
-
-    # Filter data for different patches
-    data_belastung <- tidied_data |>
-        dplyr::filter(facet == "belastung")
-
-    data_therapieerfolg <- tidied_data |>
-        dplyr::filter(facet == "therapieerfolg")
-
-
-    # Create both patches
-    plot_belastung <- ggplot2::ggplot(data_belastung, ggplot2::aes(date, value, color = outcome)) +
-        ggplot2::geom_line() +
-        ggplot2::geom_point() +
-        ggplot2::scale_y_continuous(labels = scales::label_number(suffix = "%")) +
-        ggplot2::scale_x_date(labels = scales::label_date_short()) +
-        ggplot2::expand_limits(y = c(0, 100)) +
-        ggplot2::labs(x = "Datum", y = "Belastung", color = NULL, title = "Eingesch\u00e4tzte Belastung")
-
-
-    plot_therapieerfolg <- ggplot2::ggplot(data_therapieerfolg, ggplot2::aes(date, value)) +
-        ggplot2::geom_line() +
-        ggplot2::geom_point() +
-        ggplot2::scale_y_continuous(labels = scales::label_number(suffix = "%")) +
-        ggplot2::scale_x_date(labels = scales::label_date_short()) +
-        ggplot2::expand_limits(y = c(-100, 100)) +
-        ggplot2::labs(x = "Datum", y = "Therapieerfolg", title = "Eingesch\u00e4tzter Therapieerfolg")
-
-    plot_list <- list(
-        plot_belastung,
-        plot_therapieerfolg
+  tidied_data <- data |>
+    dplyr::select(date, therapieerfolg:belastung_familienleben) |>
+    tidyr::pivot_longer(
+      cols = -date,
+      names_to = "outcome"
+    ) |>
+    dplyr::mutate(
+      facet = dplyr::case_when(
+        outcome == "therapieerfolg" ~ "therapieerfolg",
+        stringr::str_detect(outcome, "belastung") ~ "belastung"
+      ),
+      outcome = stringr::str_remove(outcome, "belastung_"),
+      outcome = snakecase::to_title_case(outcome),
+      outcome = dplyr::case_match(
+        outcome,
+        "Arbeitausbildung" ~ "Arbeit/Ausbildung",
+        "Freizeitsozialleben" ~ "Freizeit/Sozialleben",
+        "Familienleben" ~ "Familienleben/H\u00e4uslich"
+      )
     )
 
-    patchwork::wrap_plots(plot_list) +
-        patchwork::plot_layout(axes = "collect", guides = "collect")
+
+  # Filter data for different patches
+  data_belastung <- tidied_data |>
+    dplyr::filter(facet == "belastung")
+
+  data_therapieerfolg <- tidied_data |>
+    dplyr::filter(facet == "therapieerfolg")
+
+
+  # Create both patches
+  plot_belastung <- ggplot2::ggplot(data_belastung, ggplot2::aes(date, value, color = outcome)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::scale_y_continuous(labels = scales::label_number(suffix = "%")) +
+    ggplot2::scale_x_date(labels = scales::label_date_short()) +
+    ggplot2::expand_limits(y = c(0, 100)) +
+    ggplot2::labs(x = "Datum", y = "Belastung", color = NULL, title = "Eingesch\u00e4tzte Belastung")
+
+
+  plot_therapieerfolg <- ggplot2::ggplot(data_therapieerfolg, ggplot2::aes(date, value)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::scale_y_continuous(labels = scales::label_number(suffix = "%")) +
+    ggplot2::scale_x_date(labels = scales::label_date_short()) +
+    ggplot2::expand_limits(y = c(-100, 100)) +
+    ggplot2::labs(x = "Datum", y = "Therapieerfolg", title = "Eingesch\u00e4tzter Therapieerfolg")
+
+  plot_list <- list(
+    plot_belastung,
+    plot_therapieerfolg
+  )
+
+  patchwork::wrap_plots(plot_list) +
+    patchwork::plot_layout(axes = "collect", guides = "collect")
+}
+
+
+lime_plot_ies_r <- function(data) {
+  tidied_data <- data |>
+    dplyr::select(date, iesr_intrusion, iesr_vermeidung, iesr_hyperarousal) |>
+    tidyr::pivot_longer(
+      cols = -date,
+      names_to = "subscale",
+      values_to = "score",
+      names_prefix = "iesr_"
+    ) |>
+    dplyr::mutate(
+      subscale = snakecase::to_title_case(subscale)
+    )
+
+  ggplot2::ggplot(tidied_data, ggplot2::aes(date, score)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::facet_wrap(~ subscale) +
+    ggplot2::labs(x = "Datum", y = "Summenwert", title = "Impact of Event Scale - Revised", subtitle = "Reaktion auf belastende Ereignisse")
 }
 
 
 .get_plotter_list <- function(instruments) {
-    plotters <- instruments |>
-        dplyr::mutate(
-            fun_name = paste0("lime_plot_", instrument)
-        ) |>
-        dplyr::pull(fun_name) |>
-        as.list()
+  plotters <- instruments |>
+    dplyr::mutate(
+      fun_name = paste0("lime_plot_", instrument)
+    ) |>
+    dplyr::pull(fun_name) |>
+    as.list()
 
-    plotters
+  plotters
 }
 
 
@@ -213,12 +234,12 @@ lime_plot_therapieerfolg <- function(data) {
 #' @return A list with `ggplot2` plots
 #' @export
 lime_plot_instruments <- function(exported_results, path) {
-    plotter_list <- exported_results[["instruments"]] |>
-        .get_plotter_list()
+  plotter_list <- exported_results[["instruments"]] |>
+    .get_plotter_list()
 
-    data <- exported_results[["results"]]
+  data <- exported_results[["results"]]
 
-    purrr::map2(list(data), plotter_list, \(a, b) purrr::exec(b, a))
+  purrr::map2(list(data), plotter_list, \(a, b) purrr::exec(b, a))
 }
 
 
@@ -231,12 +252,12 @@ lime_plot_instruments <- function(exported_results, path) {
 #'
 #' @export
 get_plot_filenames <- function(results_object) {
-    results_object |>
-        purrr::pluck("instruments") |>
-        dplyr::mutate(
-            filename = stringr::str_glue("{ instrument }.png")
-        ) |>
-        dplyr::pull(filename)
+  results_object |>
+    purrr::pluck("instruments") |>
+    dplyr::mutate(
+      filename = stringr::str_glue("{ instrument }.png")
+    ) |>
+    dplyr::pull(filename)
 }
 
 
@@ -249,6 +270,6 @@ get_plot_filenames <- function(results_object) {
 #'
 #' @export
 get_evaluated_results <- function(evaluated_object) {
-    evaluated_object |>
-        purrr::pluck("results")
+  evaluated_object |>
+    purrr::pluck("results")
 }
