@@ -1,3 +1,6 @@
+# cbtevaluator 1.3.1
+* Update main batch file
+
 # cbtevaluator 1.3.0
 * Include BDI-II
 

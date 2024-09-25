@@ -5,7 +5,7 @@ if (!rlang::is_installed("benelib")) {
 }
 
 
-library(dplyr)
+suppressMessages(library(dplyr))
 library(purrr)
 library(fs)
 library(stringr)
@@ -90,6 +90,9 @@ evaluated_data <- downloaded_data |>
     )
 
 
+cli::cli_alert_success("Daten heruntergeladen und ausgewertet.")
+
+
 # Export raw data to "01 Rohdaten" folder
 walk2(
     evaluated_data$title,
@@ -99,6 +102,8 @@ walk2(
         file = path(evaluation_directory, a, "01 Rohdaten", "Rohdaten.csv")
     )
 )
+
+cli::cli_alert_success("Daten erfolgreich abgespeichert.")
 
 
 
@@ -132,6 +137,3 @@ pwalk(
     ),
     .progress = "Erstelle Abbildungen"
 )
-
-
-
