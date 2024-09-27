@@ -1,4 +1,5 @@
 # cbtevaluator 1.3.2
+* Simplify invitation batch file
 
 # cbtevaluator 1.3.1
 * Update main batch file
