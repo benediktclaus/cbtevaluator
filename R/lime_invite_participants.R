@@ -22,7 +22,7 @@ lime_invite_participants <- function(survey_id, initial_invitation = FALSE) {
         purrr::pluck("status")
 
     if (status_invitation == "-1 left to send") {
-        cli::cli_alert_success("Invitation was successfull.")
+        cli::cli_alert_success("Einladung erfolgreich versendet.")
     } else {
         cli::cli_abort(status_invitation)
     }

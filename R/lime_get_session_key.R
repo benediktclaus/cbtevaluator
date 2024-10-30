@@ -25,5 +25,5 @@ lime_get_session_key <- function() {
 
     Sys.setenv(LIM_SESSION_KEY = lim_session_key)
 
-    cli::cli_alert_success("Session key was successfully retrieved.")
+    cli::cli_alert_success("Session Key erfolgreich abgerufen.")
 }

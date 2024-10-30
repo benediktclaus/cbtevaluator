@@ -137,3 +137,5 @@ pwalk(
     ),
     .progress = "Erstelle Abbildungen"
 )
+
+lime_release_session_key()
