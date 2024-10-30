@@ -1,7 +1,7 @@
 Package: cbtevaluator
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 1.4.0
+Version: 1.4.1
 Authors@R: 
     person("Benedikt", "Claus", , "b.claus@psychotherapie-dortmund.com", 
     role = c("aut", "cre"),
