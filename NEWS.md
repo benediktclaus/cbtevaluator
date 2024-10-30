@@ -1,4 +1,5 @@
 # cbtevaluator 1.4.1
+* Fix evaluation session script (referenced missing files before)
 
 # cbtevaluator 1.4.0
 * Update cli messages to German
