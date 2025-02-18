@@ -62,6 +62,22 @@ lime_eval_oci_r <- function(data) {
 }
 
 
+#' Evaluate the BSL-23
+#'
+#' Items must be named `bsl23_<item-number>`. Calculated is the total sum score
+#' in variable `bsl23_total`
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_bsl_23 <- function(data) {
+  .eval_sum_score(data, identifier = "bsl23")
+}
+
+
 #' Generic function to evaluate sums cores
 #'
 #' Individual items must be named `<identifier>_<item-number>` in order to

@@ -44,7 +44,7 @@ lime_plot_mom_di <- function(data, ...) {
     data,
     variable = momdi_total,
     ylab = "Summenwert",
-    title = "Mind of Mood-Depression Inventory",
+    title = "Mind over Mood-Depression Inventory",
     subtitle = "Depressivit\u00e4t",
     ...
   )
@@ -67,7 +67,7 @@ lime_plot_mom_ai <- function(data, ...) {
     data,
     variable = momai_total,
     ylab = "Summenwert",
-    title = "Mind of Mood-Anxiety Inventory",
+    title = "Mind over Mood-Anxiety Inventory",
     subtitle = "Angst",
     ...
   )
@@ -116,6 +116,29 @@ lime_plot_oci_r <- function(data, ...) {
     ylab = "Gesamtwert",
     title = "OCI-R",
     subtitle = "Fragebogen zur Erfassung von Zwangssymptomen",
+    ...
+  )
+}
+
+
+#' Plot results of the BSL-23
+#'
+#' The data supplied must contain the column `bsl23_total`.
+#'
+#' @inheritParams .plot_single_results
+#' @param ... Additional arguments passed to .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_bsl_23 <- function(data, ...) {
+  .plot_single_results(
+    data,
+    variable = bsl23_total,
+    ylab = "Gesamtwert",
+    title = "BSL-23",
+    subtitle = "Borderline Symptom Liste 23",
     ...
   )
 }
