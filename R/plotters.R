@@ -272,9 +272,11 @@ lime_plot_wai_sr <- function(data) {
     )
 
   ggplot2::ggplot(tidied_data, ggplot2::aes(date, score)) +
+    ggplot2::geom_hline(yintercept = c(4, 20), lty = "dashed") +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
     ggplot2::facet_wrap(~ subscale) +
+    ggplot2::expand_limits(y = c(0, 20)) +
     ggplot2::labs(x = "Datum", y = "Summenwert", title = "Working Alliance Inventory - Short Revised", subtitle = "Einsch\u00e4tzung der Therapiebeziehung")
 }
 
