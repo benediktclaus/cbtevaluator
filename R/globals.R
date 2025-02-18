@@ -28,5 +28,7 @@ globalVariables(unique(c(
   # lime_plot_wai_sr:
   "waisr_bond", "waisr_goals", "waisr_tasks",
   # lime_plot_bdi_ii:
-  "bdi_ii_total"
+  "bdi_ii_total",
+  # lime_plot_bsl_23:
+  "bsl23_total"
 )))
