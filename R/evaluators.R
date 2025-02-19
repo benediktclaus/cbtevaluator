@@ -78,6 +78,22 @@ lime_eval_bsl_23 <- function(data) {
 }
 
 
+#' Evaluate the BAI
+#'
+#' Items must be named `bai_<item-number>`. Calculated is the total sum score
+#' in variable `bai_total`
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_bai <- function(data) {
+  .eval_sum_score(data, identifier = "bai")
+}
+
+
 #' Generic function to evaluate sums cores
 #'
 #' Individual items must be named `<identifier>_<item-number>` in order to

@@ -1,3 +1,6 @@
+# cbtevaluator (development version)
+* Include the BAI as instrument
+
 # cbtevaluator 1.5.0
 * Include BSL-23 as instrument
 * Include WAI-SR ranges for interpretation in plotting function

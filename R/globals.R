@@ -30,5 +30,7 @@ globalVariables(unique(c(
   # lime_plot_bdi_ii:
   "bdi_ii_total",
   # lime_plot_bsl_23:
-  "bsl23_total"
+  "bsl23_total",
+  # lime_plot_bai_23:
+  "bai_total"
 )))

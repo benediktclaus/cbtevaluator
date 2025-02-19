@@ -144,6 +144,29 @@ lime_plot_bsl_23 <- function(data, ...) {
 }
 
 
+#' Plot results of the BSL-23
+#'
+#' The data supplied must contain the column `bai_total`.
+#'
+#' @inheritParams .plot_single_results
+#' @param ... Additional arguments passed to .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_bai <- function(data, ...) {
+  .plot_single_results(
+    data,
+    variable = bai_total,
+    ylab = "Gesamtwert",
+    title = "BAI",
+    subtitle = "Fragebogen zur Erfassung von Angstsymptomen",
+    ...
+  )
+}
+
+
 
 #' Plot Therapieerfolg
 #'
