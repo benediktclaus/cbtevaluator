@@ -1,4 +1,4 @@
-# cbtevaluator (development version)
+# cbtevaluator 1.6.0
 * Include the BAI as instrument
 
 # cbtevaluator 1.5.0
