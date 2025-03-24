@@ -1,4 +1,5 @@
 # cbtevaluator (development version)
+* Include the EDE-Q as instrument
 
 # cbtevaluator 1.6.0
 * Include the BAI as instrument
