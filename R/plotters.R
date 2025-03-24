@@ -167,6 +167,55 @@ lime_plot_bai <- function(data, ...) {
 }
 
 
+#' Plot results of the EDE-Q
+#'
+#' The data supplied must contain the columns `Restraint`, `Eating Concern`,
+#' `Weight Concern`, `Shape Concern`, `Global`, `Häufigkeit viel Nahrung`,
+#' `Häufigkeit Essanfälle`, `Tage mit Essanfällen`, `Häufigkeit Erbrechen`,
+#' `Häufigkeit Abführmittel`, `Häufigkeit Sport`
+#'
+#' @inheritParams .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_ede_q <- function(data) {
+    data_subscale <- data |>
+        dplyr::select(date, "Restraint":"Global") |>
+        tidyr::pivot_longer(
+            cols = -date,
+            names_to = "subscale"
+        )
+
+    data_item <- data |>
+        dplyr::select(date, "H\u00e4ufigkeit viel Nahrung":"H\u00e4ufigkeit Sport") |>
+        tidyr::pivot_longer(
+            cols = "H\u00e4ufigkeit viel Nahrung":"H\u00e4ufigkeit Sport",
+            names_to = "item"
+        )
+
+    plot_subscale <- ggplot2::ggplot(data_subscale, ggplot2::aes(date, value, color = subscale)) +
+        ggplot2::geom_line() +
+        ggplot2::geom_point() +
+        ggplot2::expand_limits(y = c(0, 6)) +
+        ggplot2::labs(x = "Datum", y = "Mittelwert", color = "Subskala")
+
+    plot_item <- ggplot2::ggplot(data_item, ggplot2::aes(date, value)) +
+        ggplot2::geom_line() +
+        ggplot2::geom_point() +
+        ggplot2::facet_wrap(~ item, ncol = 2) +
+        ggplot2::labs(x = "Datum", y = "Häufigkeit")
+
+    plot_list <- list(
+        plot_subscale,
+        plot_item
+    )
+
+    patchwork::wrap_plots(plot_list) +
+        patchwork::plot_layout(axes = "collect", guides = "collect", ncol = 1)
+}
+
 
 #' Plot Therapieerfolg
 #'

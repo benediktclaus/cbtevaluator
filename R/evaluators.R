@@ -10,7 +10,7 @@
 #' @return A tibble
 #' @export
 lime_eval_mom_di <- function(data) {
-  .eval_sum_score(data, identifier = "momdi")
+    .eval_sum_score(data, identifier = "momdi")
 }
 
 
@@ -26,7 +26,7 @@ lime_eval_mom_di <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_mom_ai <- function(data) {
-  .eval_sum_score(data, identifier = "momai")
+    .eval_sum_score(data, identifier = "momai")
 }
 
 
@@ -42,7 +42,7 @@ lime_eval_mom_ai <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_who_5 <- function(data) {
-  .eval_sum_score(data, identifier = "who5", multiplicator = 4)
+    .eval_sum_score(data, identifier = "who5", multiplicator = 4)
 }
 
 
@@ -58,7 +58,7 @@ lime_eval_who_5 <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_oci_r <- function(data) {
-  .eval_sum_score(data, identifier = "ocir")
+    .eval_sum_score(data, identifier = "ocir")
 }
 
 
@@ -74,7 +74,7 @@ lime_eval_oci_r <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_bsl_23 <- function(data) {
-  .eval_sum_score(data, identifier = "bsl23")
+    .eval_sum_score(data, identifier = "bsl23")
 }
 
 
@@ -90,7 +90,38 @@ lime_eval_bsl_23 <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_bai <- function(data) {
-  .eval_sum_score(data, identifier = "bai")
+    .eval_sum_score(data, identifier = "bai")
+}
+
+
+#' Evaluate the EDE-Q
+#'
+#' Items must be named `edeq_<item-number>`. Calculated are subscale means, the
+#' global mean and free text input variables.
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_ede_q <- function(data) {
+    data |>
+        dplyr::select(dplyr::starts_with("edeq")) |>
+        dplyr::rename_with(\(a) stringr::str_replace(a, "^(edeq)\\d_(\\d)", "\\1_\\2")) |>
+        dplyr::mutate(
+            "Restraint" = rowMeans(dplyr::across(dplyr::matches("^edeq_(2|2|3|4|5)"))),
+            "Eating Concern" = rowMeans(dplyr::across(dplyr::matches("^edeq_(7|9|19|20|21)"))),
+            "Weight Concern" = rowMeans(dplyr::across(dplyr::matches("^edeq_(8|12|22|24|25)"))),
+            "Shape Concern" = rowMeans(dplyr::across(dplyr::matches("^edeq_(6|8|10|11|23|26|27|28)"))),
+            "Global" = rowMeans(dplyr::across(dplyr::everything())),
+            "H\u00e4ufigkeit viel Nahrung" = edeq_13,
+            "H\u00e4ufigkeit Essanf\u00e4lle" = edeq_14,
+            "Tage mit Essanf\u00e4llen" = edeq_15,
+            "H\u00e4ufigkeit Erbrechen" = edeq_16,
+            "H\u00e4ufigkeit Abf\u00fchrmittel" = edeq_17,
+            "H\u00e4ufigkeit Sport" = edeq_18,
+        )
 }
 
 
@@ -108,11 +139,11 @@ lime_eval_bai <- function(data) {
 #'
 #' @return A tibble
 .eval_sum_score <- function(data, identifier, multiplicator = 1) {
-  data |>
-    dplyr::select(dplyr::starts_with(identifier)) |>
-    dplyr::mutate(
-      "{identifier}_total" := rowSums(dplyr::across(dplyr::everything())) * multiplicator
-    )
+    data |>
+        dplyr::select(dplyr::starts_with(identifier)) |>
+        dplyr::mutate(
+            "{identifier}_total" := rowSums(dplyr::across(dplyr::everything())) * multiplicator
+        )
 }
 
 
@@ -130,10 +161,10 @@ lime_eval_bai <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_therapieerfolg <- function(data) {
-  data |>
-    dplyr::select(therapieerfolg_1:familienleben_1) |>
-    dplyr::rename_with(\(a) stringr::str_remove(a, "_1$")) |>
-    dplyr::rename_with(\(a) stringr::str_glue("belastung_{a}"), .cols = arbeitausbildung:familienleben)
+    data |>
+        dplyr::select(therapieerfolg_1:familienleben_1) |>
+        dplyr::rename_with(\(a) stringr::str_remove(a, "_1$")) |>
+        dplyr::rename_with(\(a) stringr::str_glue("belastung_{a}"), .cols = arbeitausbildung:familienleben)
 }
 
 
@@ -148,13 +179,13 @@ lime_eval_therapieerfolg <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_ies_r <- function(data) {
-  data |>
-    dplyr::select(dplyr::starts_with("iesr")) |>
-    dplyr::mutate(
-      iesr_intrusion = rowSums(dplyr::across(dplyr::num_range("iesr_", c(1, 3, 6, 9, 14, 16, 20)))),
-      iesr_vermeidung = rowSums(dplyr::across(dplyr::num_range("iesr_", c(5, 7, 8, 11, 12, 13, 17, 22)))),
-      iesr_hyperarousal = rowSums(dplyr::across(dplyr::num_range("iesr_", c(2, 4, 10, 15, 18, 19, 21))))
-    )
+    data |>
+        dplyr::select(dplyr::starts_with("iesr")) |>
+        dplyr::mutate(
+            iesr_intrusion = rowSums(dplyr::across(dplyr::num_range("iesr_", c(1, 3, 6, 9, 14, 16, 20)))),
+            iesr_vermeidung = rowSums(dplyr::across(dplyr::num_range("iesr_", c(5, 7, 8, 11, 12, 13, 17, 22)))),
+            iesr_hyperarousal = rowSums(dplyr::across(dplyr::num_range("iesr_", c(2, 4, 10, 15, 18, 19, 21))))
+        )
 }
 
 
@@ -169,13 +200,13 @@ lime_eval_ies_r <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_wai_sr <- function(data) {
-  data |>
-    dplyr::select(dplyr::starts_with("waisr_")) |>
-    dplyr::mutate(
-      waisr_bond = rowSums(dplyr::across(dplyr::num_range("waisr_", c(3, 5, 7, 9)))),
-      waisr_tasks = rowSums(dplyr::across(dplyr::num_range("waisr_", c(1, 2, 10, 12)))),
-      waisr_goals = rowSums(dplyr::across(dplyr::num_range("waisr_", c(4, 6, 8, 11))))
-    )
+    data |>
+        dplyr::select(dplyr::starts_with("waisr_")) |>
+        dplyr::mutate(
+            waisr_bond = rowSums(dplyr::across(dplyr::num_range("waisr_", c(3, 5, 7, 9)))),
+            waisr_tasks = rowSums(dplyr::across(dplyr::num_range("waisr_", c(1, 2, 10, 12)))),
+            waisr_goals = rowSums(dplyr::across(dplyr::num_range("waisr_", c(4, 6, 8, 11))))
+        )
 }
 
 
@@ -190,13 +221,13 @@ lime_eval_wai_sr <- function(data) {
 #' @return A tibble
 #' @export
 lime_eval_bdi_ii <- function(data) {
-  data |>
-    dplyr::select(dplyr::starts_with("bdi")) |>
-    dplyr::rename_with(\(a) stringr::str_replace(a, "(bdi)(\\d*)", "\\1_ii_\\2")) |>
-    dplyr::mutate(
-      dplyr::across(dplyr::where(is.character), \(a) readr::parse_number(a)),
-      bdi_ii_total = rowSums(dplyr::across(dplyr::everything()))
-    )
+    data |>
+        dplyr::select(dplyr::starts_with("bdi")) |>
+        dplyr::rename_with(\(a) stringr::str_replace(a, "(bdi)(\\d*)", "\\1_ii_\\2")) |>
+        dplyr::mutate(
+            dplyr::across(dplyr::where(is.character), \(a) readr::parse_number(a)),
+            bdi_ii_total = rowSums(dplyr::across(dplyr::everything()))
+        )
 }
 
 
@@ -207,8 +238,8 @@ lime_eval_bdi_ii <- function(data) {
 #'
 #' @return A tibble with ID and date
 .get_dates <- function(data) {
-  data |>
-    dplyr::select(id, date)
+    data |>
+        dplyr::select(id, date)
 }
 
 
@@ -223,19 +254,19 @@ lime_eval_bdi_ii <- function(data) {
 #' @return A vector with all distinct instruments
 #' @export
 .get_instruments <- function(survey_id) {
-  resp_groups <- lime_call_api(
-    "list_groups",
-    list(
-      iSurveyID = survey_id
+    resp_groups <- lime_call_api(
+        "list_groups",
+        list(
+            iSurveyID = survey_id
+        )
+    ) |>
+        .get_results()
+
+
+    tibble::tibble(
+        group_name = purrr::map_chr(resp_groups, "group_name"),
+        instrument = snakecase::to_snake_case(stringr::str_to_lower(group_name))
     )
-  ) |>
-    .get_results()
-
-
-  tibble::tibble(
-    group_name = purrr::map_chr(resp_groups, "group_name"),
-    instrument = snakecase::to_snake_case(stringr::str_to_lower(group_name))
-  )
 }
 
 
@@ -246,17 +277,17 @@ lime_eval_bdi_ii <- function(data) {
 #'
 #' @return A list with all evaluator function names
 .get_evaluator_list <- function(instruments) {
-  evaluators <- instruments |>
-    dplyr::mutate(
-      fun_name = paste0("lime_eval_", instrument)
-    ) |>
-    dplyr::pull(fun_name) |>
-    as.list()
+    evaluators <- instruments |>
+        dplyr::mutate(
+            fun_name = paste0("lime_eval_", instrument)
+        ) |>
+        dplyr::pull(fun_name) |>
+        as.list()
 
-  c(
-    ".get_dates",
-    evaluators
-  )
+    c(
+        ".get_dates",
+        evaluators
+    )
 }
 
 
@@ -272,17 +303,17 @@ lime_eval_bdi_ii <- function(data) {
 #' @return A tibble with all evaluated instruments
 #' @export
 lime_evaluate_instruments <- function(exported_results) {
-  evaluator_list <- exported_results[["instruments"]] |>
-    .get_evaluator_list()
+    evaluator_list <- exported_results[["instruments"]] |>
+        .get_evaluator_list()
 
-  data <- exported_results[["data"]]
+    data <- exported_results[["data"]]
 
-  results <- purrr::map2(list(data), evaluator_list, \(a, b) purrr::exec(b, a)) |>
-    purrr::list_cbind()
+    results <- purrr::map2(list(data), evaluator_list, \(a, b) purrr::exec(b, a)) |>
+        purrr::list_cbind()
 
-  list(
-    data = data,
-    instruments = exported_results[["instruments"]],
-    results = results
-  )
+    list(
+        data = data,
+        instruments = exported_results[["instruments"]],
+        results = results
+    )
 }
