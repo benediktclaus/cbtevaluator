@@ -205,7 +205,7 @@ lime_plot_ede_q <- function(data) {
         ggplot2::geom_line() +
         ggplot2::geom_point() +
         ggplot2::facet_wrap(~ item, ncol = 2) +
-        ggplot2::labs(x = "Datum", y = "Häufigkeit")
+        ggplot2::labs(x = "Datum", y = "H\u00e4ufigkeit")
 
     plot_list <- list(
         plot_subscale,
