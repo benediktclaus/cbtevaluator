@@ -34,5 +34,7 @@ globalVariables(unique(c(
   # lime_plot_bai_23:
   "bai_total",
   # lime_eval_ede_q:
-  "edeq_13", "edeq_14", "edeq_15", "edeq_16", "edeq_17", "edeq_18"
+  "edeq_13", "edeq_14", "edeq_15", "edeq_16", "edeq_17", "edeq_18",
+  # lime_plot_wid_total:,
+  "wid_total"
 )))
