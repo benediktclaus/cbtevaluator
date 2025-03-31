@@ -144,7 +144,7 @@ lime_plot_bsl_23 <- function(data, ...) {
 }
 
 
-#' Plot results of the BSL-23
+#' Plot results of the BAI
 #'
 #' The data supplied must contain the column `bai_total`.
 #'
@@ -162,6 +162,30 @@ lime_plot_bai <- function(data, ...) {
     ylab = "Gesamtwert",
     title = "BAI",
     subtitle = "Fragebogen zur Erfassung von Angstsymptomen",
+    ...
+  )
+}
+
+
+#' Plot results of the WI-d
+#'
+#' The data supplied must contain the column `wid_total`.
+#'
+#' @inheritParams .plot_single_results
+#' @param ... Additional arguments passed to .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_wi_d <- function(data, ...) {
+  .plot_single_results(
+    data,
+    variable = wid_total,
+    ylab = "Gesamtwert",
+    title = "WI-d",
+    subtitle = "Fragebogen zur Erfassung von krankheits\u00e4ngstlichen Einstellungen",
+    ymax = 14,
     ...
   )
 }

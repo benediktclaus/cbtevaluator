@@ -1,4 +1,5 @@
 # cbtevaluator (development version)
+* Include the WI-d as instrument
 
 # cbtevaluator 1.7.0
 * Include the EDE-Q as instrument

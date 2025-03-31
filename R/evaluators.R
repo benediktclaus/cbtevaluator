@@ -94,6 +94,22 @@ lime_eval_bai <- function(data) {
 }
 
 
+#' Evaluate the WI-d
+#'
+#' Items must be named `wid_<item-number>`. Calculated is the total sum score
+#' in variable `wid_total`
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_wi_d <- function(data) {
+    .eval_sum_score(data, identifier = "wid")
+}
+
+
 #' Evaluate the EDE-Q
 #'
 #' Items must be named `edeq_<item-number>`. Calculated are subscale means, the
