@@ -1,4 +1,4 @@
-# cbtevaluator (development version)
+# cbtevaluator 1.8.0
 * Include the WI-d as instrument
 
 # cbtevaluator 1.7.0
