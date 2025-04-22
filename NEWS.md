@@ -1,4 +1,4 @@
-# cbtevaluator (development version)
+# cbtevaluator 1.9.0
 * Remove rlang dependency
 
 # cbtevaluator 1.8.0
