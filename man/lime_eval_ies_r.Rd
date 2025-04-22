@@ -17,12 +17,16 @@ Items must be named `iesr_<item_number>` in order to evaluate the instrument. Su
 }
 \seealso{
 Other evaluators: 
+\code{\link{lime_eval_bai}()},
 \code{\link{lime_eval_bdi_ii}()},
+\code{\link{lime_eval_bsl_23}()},
+\code{\link{lime_eval_ede_q}()},
 \code{\link{lime_eval_mom_ai}()},
 \code{\link{lime_eval_mom_di}()},
 \code{\link{lime_eval_oci_r}()},
 \code{\link{lime_eval_therapieerfolg}()},
 \code{\link{lime_eval_wai_sr}()},
-\code{\link{lime_eval_who_5}()}
+\code{\link{lime_eval_who_5}()},
+\code{\link{lime_eval_wi_d}()}
 }
 \concept{evaluators}

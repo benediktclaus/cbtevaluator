@@ -36,5 +36,6 @@ globalVariables(unique(c(
   # lime_eval_ede_q:
   "edeq_13", "edeq_14", "edeq_15", "edeq_16", "edeq_17", "edeq_18",
   # lime_plot_wid_total:,
-  "wid_total"
+  "wid_total",
+  "total_score"
 )))

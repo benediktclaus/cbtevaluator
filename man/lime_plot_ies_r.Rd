@@ -17,12 +17,16 @@ The data supplied must contain the columns `iesr_intrusion`, `iesr_vermeidung`, 
 }
 \seealso{
 Other plotters: 
+\code{\link{lime_plot_bai}()},
 \code{\link{lime_plot_bdi_ii}()},
+\code{\link{lime_plot_bsl_23}()},
+\code{\link{lime_plot_ede_q}()},
 \code{\link{lime_plot_mom_ai}()},
 \code{\link{lime_plot_mom_di}()},
 \code{\link{lime_plot_oci_r}()},
 \code{\link{lime_plot_therapieerfolg}()},
 \code{\link{lime_plot_wai_sr}()},
-\code{\link{lime_plot_who_5}()}
+\code{\link{lime_plot_who_5}()},
+\code{\link{lime_plot_wi_d}()}
 }
 \concept{plotters}

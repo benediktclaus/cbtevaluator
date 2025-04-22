@@ -151,15 +151,15 @@ lime_eval_ede_q <- function(data) {
 #' @param identifier String, the instrument identifier
 #' @param multiplicator Double, multiplication factor for the raw total score
 #'
-#' @importFrom rlang `:=`
 #'
 #' @return A tibble
 .eval_sum_score <- function(data, identifier, multiplicator = 1) {
     data |>
         dplyr::select(dplyr::starts_with(identifier)) |>
         dplyr::mutate(
-            "{identifier}_total" := rowSums(dplyr::across(dplyr::everything())) * multiplicator
-        )
+            total_score = rowSums(dplyr::across(dplyr::everything())) * multiplicator
+        ) |>
+        dplyr::rename_with(\(a) stringr::str_replace(a, "total_score", paste0(identifier, "_total")))
 }
 
 
