@@ -1,4 +1,5 @@
 # cbtevaluator (development version)
+* Remove rlang dependency
 
 # cbtevaluator 1.8.0
 * Include the WI-d as instrument
