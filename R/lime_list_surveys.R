@@ -9,7 +9,10 @@ lime_list_surveys <- function() {
         .get_results()
 
     tibble::tibble(
-        survey_id = purrr::map_chr(resp_surveys, "sid"),
+        survey_id = purrr::map_dbl(resp_surveys, "sid"),
         title = purrr::map_chr(resp_surveys, "surveyls_title")
+    ) |>
+    dplyr::mutate(
+        survey_id = as.character(survey_id),
     )
 }
