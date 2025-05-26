@@ -1,5 +1,6 @@
 # cbtevaluator 1.9.0
 * Remove rlang dependency
+* Clean up some deprecations from `dplyr`
 
 # cbtevaluator 1.8.0
 * Include the WI-d as instrument

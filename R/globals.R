@@ -2,7 +2,8 @@ globalVariables(unique(c(
   # .get_instruments:
   "instrument", "name",
   # lime_export_results:
-  "datestamp", "lastpage", "seed", "startdate", "startlanguage", "submitdate", "token",
+  "datestamp", "lastpage", "seed", "startdate", "startlanguage", 
+  "submitdate", "token",
   # .get_dates:
   "id",
   # .get_evaluator_list:
@@ -37,5 +38,6 @@ globalVariables(unique(c(
   "edeq_13", "edeq_14", "edeq_15", "edeq_16", "edeq_17", "edeq_18",
   # lime_plot_wid_total:,
   "wid_total",
-  "total_score"
+  "total_score",
+  "survey_id"
 )))
