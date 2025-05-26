@@ -1,3 +1,6 @@
+# cbtevaluator 1.9.0
+* Clean up some deprecations from `dplyr`
+
 # cbtevaluator 1.8.0
 * Include the WI-d as instrument
 
