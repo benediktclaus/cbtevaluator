@@ -1,3 +1,6 @@
+# cbtevaluator (development version)
+* Include BDI-V as instrument
+
 # cbtevaluator 1.9.0
 * Remove rlang dependency
 * Clean up some deprecations from `dplyr`

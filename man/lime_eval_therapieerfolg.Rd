@@ -22,6 +22,7 @@ instruments.
 Other evaluators: 
 \code{\link{lime_eval_bai}()},
 \code{\link{lime_eval_bdi_ii}()},
+\code{\link{lime_eval_bdi_v}()},
 \code{\link{lime_eval_bsl_23}()},
 \code{\link{lime_eval_ede_q}()},
 \code{\link{lime_eval_ies_r}()},

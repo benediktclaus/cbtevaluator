@@ -20,6 +20,7 @@ in variable `bsl23_total`
 Other evaluators: 
 \code{\link{lime_eval_bai}()},
 \code{\link{lime_eval_bdi_ii}()},
+\code{\link{lime_eval_bdi_v}()},
 \code{\link{lime_eval_ede_q}()},
 \code{\link{lime_eval_ies_r}()},
 \code{\link{lime_eval_mom_ai}()},

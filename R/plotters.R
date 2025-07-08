@@ -12,13 +12,15 @@
 #' @param ymax Double, the maximum y-axis value to include in the axis
 #'
 #' @return A `ggplot2` object
-.plot_single_results <- function(data,
-                                 variable,
-                                 ylab = "Wert",
-                                 title = "Instrumentenname",
-                                 subtitle,
-                                 xlab = "Datum",
-                                 ymax = NULL) {
+.plot_single_results <- function(
+  data,
+  variable,
+  ylab = "Wert",
+  title = "Instrumentenname",
+  subtitle,
+  xlab = "Datum",
+  ymax = NULL
+) {
   ggplot2::ggplot(data, ggplot2::aes(date, {{ variable }})) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
@@ -205,39 +207,45 @@ lime_plot_wi_d <- function(data, ...) {
 #' @return A `ggplot2` object
 #' @export
 lime_plot_ede_q <- function(data) {
-    data_subscale <- data |>
-        dplyr::select(date, "Restraint":"Global") |>
-        tidyr::pivot_longer(
-            cols = -date,
-            names_to = "subscale"
-        )
-
-    data_item <- data |>
-        dplyr::select(date, "H\u00e4ufigkeit viel Nahrung":"H\u00e4ufigkeit Sport") |>
-        tidyr::pivot_longer(
-            cols = "H\u00e4ufigkeit viel Nahrung":"H\u00e4ufigkeit Sport",
-            names_to = "item"
-        )
-
-    plot_subscale <- ggplot2::ggplot(data_subscale, ggplot2::aes(date, value, color = subscale)) +
-        ggplot2::geom_line() +
-        ggplot2::geom_point() +
-        ggplot2::expand_limits(y = c(0, 6)) +
-        ggplot2::labs(x = "Datum", y = "Mittelwert", color = "Subskala")
-
-    plot_item <- ggplot2::ggplot(data_item, ggplot2::aes(date, value)) +
-        ggplot2::geom_line() +
-        ggplot2::geom_point() +
-        ggplot2::facet_wrap(~ item, ncol = 2) +
-        ggplot2::labs(x = "Datum", y = "H\u00e4ufigkeit")
-
-    plot_list <- list(
-        plot_subscale,
-        plot_item
+  data_subscale <- data |>
+    dplyr::select(date, "Restraint":"Global") |>
+    tidyr::pivot_longer(
+      cols = -date,
+      names_to = "subscale"
     )
 
-    patchwork::wrap_plots(plot_list) +
-        patchwork::plot_layout(axes = "collect", guides = "collect", ncol = 1)
+  data_item <- data |>
+    dplyr::select(
+      date,
+      "H\u00e4ufigkeit viel Nahrung":"H\u00e4ufigkeit Sport"
+    ) |>
+    tidyr::pivot_longer(
+      cols = "H\u00e4ufigkeit viel Nahrung":"H\u00e4ufigkeit Sport",
+      names_to = "item"
+    )
+
+  plot_subscale <- ggplot2::ggplot(
+    data_subscale,
+    ggplot2::aes(date, value, color = subscale)
+  ) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::expand_limits(y = c(0, 6)) +
+    ggplot2::labs(x = "Datum", y = "Mittelwert", color = "Subskala")
+
+  plot_item <- ggplot2::ggplot(data_item, ggplot2::aes(date, value)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::facet_wrap(~item, ncol = 2) +
+    ggplot2::labs(x = "Datum", y = "H\u00e4ufigkeit")
+
+  plot_list <- list(
+    plot_subscale,
+    plot_item
+  )
+
+  patchwork::wrap_plots(plot_list) +
+    patchwork::plot_layout(axes = "collect", guides = "collect", ncol = 1)
 }
 
 
@@ -275,7 +283,6 @@ lime_plot_therapieerfolg <- function(data) {
       )
     )
 
-
   # Filter data for different patches
   data_belastung <- tidied_data |>
     dplyr::filter(facet == "belastung")
@@ -283,24 +290,37 @@ lime_plot_therapieerfolg <- function(data) {
   data_therapieerfolg <- tidied_data |>
     dplyr::filter(facet == "therapieerfolg")
 
-
   # Create both patches
-  plot_belastung <- ggplot2::ggplot(data_belastung, ggplot2::aes(date, value, color = outcome)) +
+  plot_belastung <- ggplot2::ggplot(
+    data_belastung,
+    ggplot2::aes(date, value, color = outcome)
+  ) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
     ggplot2::scale_y_continuous(labels = scales::label_number(suffix = "%")) +
     ggplot2::scale_x_date(labels = scales::label_date_short()) +
     ggplot2::expand_limits(y = c(0, 100)) +
-    ggplot2::labs(x = "Datum", y = "Belastung", color = NULL, title = "Eingesch\u00e4tzte Belastung")
+    ggplot2::labs(
+      x = "Datum",
+      y = "Belastung",
+      color = NULL,
+      title = "Eingesch\u00e4tzte Belastung"
+    )
 
-
-  plot_therapieerfolg <- ggplot2::ggplot(data_therapieerfolg, ggplot2::aes(date, value)) +
+  plot_therapieerfolg <- ggplot2::ggplot(
+    data_therapieerfolg,
+    ggplot2::aes(date, value)
+  ) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
     ggplot2::scale_y_continuous(labels = scales::label_number(suffix = "%")) +
     ggplot2::scale_x_date(labels = scales::label_date_short()) +
     ggplot2::expand_limits(y = c(-100, 100)) +
-    ggplot2::labs(x = "Datum", y = "Therapieerfolg", title = "Eingesch\u00e4tzter Therapieerfolg")
+    ggplot2::labs(
+      x = "Datum",
+      y = "Therapieerfolg",
+      title = "Eingesch\u00e4tzter Therapieerfolg"
+    )
 
   plot_list <- list(
     plot_belastung,
@@ -338,8 +358,13 @@ lime_plot_ies_r <- function(data) {
   ggplot2::ggplot(tidied_data, ggplot2::aes(date, score)) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
-    ggplot2::facet_wrap(~ subscale) +
-    ggplot2::labs(x = "Datum", y = "Summenwert", title = "Impact of Event Scale - Revised", subtitle = "Reaktion auf belastende Ereignisse")
+    ggplot2::facet_wrap(~subscale) +
+    ggplot2::labs(
+      x = "Datum",
+      y = "Summenwert",
+      title = "Impact of Event Scale - Revised",
+      subtitle = "Reaktion auf belastende Ereignisse"
+    )
 }
 
 
@@ -371,9 +396,14 @@ lime_plot_wai_sr <- function(data) {
     ggplot2::geom_hline(yintercept = c(4, 20), lty = "dashed") +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
-    ggplot2::facet_wrap(~ subscale) +
+    ggplot2::facet_wrap(~subscale) +
     ggplot2::expand_limits(y = c(0, 20)) +
-    ggplot2::labs(x = "Datum", y = "Summenwert", title = "Working Alliance Inventory - Short Revised", subtitle = "Einsch\u00e4tzung der Therapiebeziehung")
+    ggplot2::labs(
+      x = "Datum",
+      y = "Summenwert",
+      title = "Working Alliance Inventory - Short Revised",
+      subtitle = "Einsch\u00e4tzung der Therapiebeziehung"
+    )
 }
 
 
@@ -395,6 +425,29 @@ lime_plot_bdi_ii <- function(data, ...) {
     ylab = "Summenwert",
     title = "Beck Depression Inventory - II",
     subtitle = "Depressivit\u00e4t",
+    ...
+  )
+}
+
+
+#' Plot results of the BDI-V
+#'
+#' The data supplied must contain the column `bdiv_total`.
+#'
+#' @inheritParams .plot_single_results
+#' @param ... Additional arguments passed to .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_bdi_v <- function(data, ...) {
+  .plot_single_results(
+    data,
+    variable = bdiv_total,
+    ylab = "Gesamtwert",
+    title = "BDI-V",
+    subtitle = "Fragebogen zur Erfassung von depressiven Symptomen",
     ...
   )
 }
@@ -427,7 +480,6 @@ lime_plot_instruments <- function(exported_results, path) {
 
   purrr::map2(list(data), plotter_list, \(a, b) purrr::exec(b, a))
 }
-
 
 
 #' Get filenames for each plot
