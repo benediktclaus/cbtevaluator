@@ -1,4 +1,4 @@
-# cbtevaluator (development version)
+# cbtevaluator 1.10.0
 * Include BDI-V as instrument
 
 # cbtevaluator 1.9.0
