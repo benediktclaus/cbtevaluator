@@ -1,3 +1,6 @@
+# cbtevaluator 1.11.0
+* Include GAD-7 as instrument
+
 # cbtevaluator 1.10.0
 * Include BDI-V as instrument
 
