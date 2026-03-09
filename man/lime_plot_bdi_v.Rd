@@ -23,6 +23,7 @@ Other plotters:
 \code{\link{lime_plot_bdi_ii}()},
 \code{\link{lime_plot_bsl_23}()},
 \code{\link{lime_plot_ede_q}()},
+\code{\link{lime_plot_gad_7}()},
 \code{\link{lime_plot_ies_r}()},
 \code{\link{lime_plot_mom_ai}()},
 \code{\link{lime_plot_mom_di}()},
