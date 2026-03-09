@@ -64,5 +64,6 @@ globalVariables(unique(c(
   "wid_total",
   "total_score",
   "survey_id",
-  "bdiv_total"
+  "bdiv_total",
+  "gad7_total"
 )))

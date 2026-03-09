@@ -470,7 +470,7 @@ lime_plot_gad_7 <- function(data, ...) {
     variable = gad7_total,
     ylab = "Gesamtwert",
     title = "GAD-7",
-    subtitle = "Fragebogen zur Erfassung von genereller Ängstlichkeit",
+    subtitle = "Fragebogen zur Erfassung von genereller \u00c4ngstlichkeit",
     ...
   )
 }
