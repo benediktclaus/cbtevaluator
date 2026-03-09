@@ -167,6 +167,22 @@ lime_eval_bdi_v <- function(data) {
 }
 
 
+#' Evaluate the GAD-7
+#'
+#' Items must be named `gad7_<item-number>`. Calculated is the total sum score
+#' in variable `gad7_total`
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_gad_7 <- function(data) {
+  .eval_sum_score(data, identifier = "gad7")
+}
+
+
 #' Generic function to evaluate sums cores
 #'
 #' Individual items must be named `<identifier>_<item-number>` in order to

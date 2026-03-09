@@ -453,6 +453,29 @@ lime_plot_bdi_v <- function(data, ...) {
 }
 
 
+#' Plot results of the GAD-7
+#'
+#' The data supplied must contain the column `gad7_total`.
+#'
+#' @inheritParams .plot_single_results
+#' @param ... Additional arguments passed to .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_gad_7 <- function(data, ...) {
+  .plot_single_results(
+    data,
+    variable = gad7_total,
+    ylab = "Gesamtwert",
+    title = "GAD-7",
+    subtitle = "Fragebogen zur Erfassung von genereller Ängstlichkeit",
+    ...
+  )
+}
+
+
 .get_plotter_list <- function(instruments) {
   plotters <- instruments |>
     dplyr::mutate(
