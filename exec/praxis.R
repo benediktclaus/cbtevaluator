@@ -11,6 +11,9 @@ suppressMessages(library(insight))
 suppressMessages(library(purrr))
 suppressMessages(library(fs))
 
+# Verhindere die automatische Erstellung von Rplots.pdf
+pdf(NULL)
+
 # Pfad für die Auswertung auf das aktuelle Arbeitsverzeichnis setzen
 evaluation_directory <- fs::path_wd()
 
