@@ -12,7 +12,7 @@ suppressMessages(library(purrr))
 suppressMessages(library(fs))
 
 # Verhindere die automatische Erstellung von Rplots.pdf
-pdf(NULL)
+grDevices::pdf(NULL)
 
 # Pfad für die Auswertung auf das aktuelle Arbeitsverzeichnis setzen
 evaluation_directory <- fs::path_wd()
@@ -37,7 +37,8 @@ evaluate_single_patient <- function(p_name, p_survey_id, eval_dir) {
         benelib::use_carto_theme()
 
         # 3. Auswerten
-        evaluated <- lime_evaluate_instruments(results)
+        evaluated <- lime_evaluate_ins
+        functiontruments(results)
         plots <- lime_plot_instruments(evaluated)
         filenames <- get_plot_filenames(results)
 
