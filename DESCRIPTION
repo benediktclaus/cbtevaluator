@@ -24,6 +24,7 @@ Imports:
     lubridate,
     patchwork,
     purrr,
+    Rapp,
     readr,
     scales,
     snakecase,
