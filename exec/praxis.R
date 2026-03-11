@@ -10,6 +10,7 @@ suppressMessages(library(cbtevaluator))
 suppressMessages(library(insight))
 suppressMessages(library(purrr))
 suppressMessages(library(fs))
+suppressMessages(library(tidyr))
 
 # Verhindere die automatische Erstellung von Rplots.pdf
 grDevices::pdf(NULL)
@@ -18,77 +19,13 @@ grDevices::pdf(NULL)
 evaluation_directory <- fs::path_wd()
 
 
-# --- HILFSFUNKTION 1: AUSWERTUNG ---
-evaluate_single_patient <- function(p_name, p_survey_id, eval_dir) {
-    cli::cli_alert_info("Starte Evaluation für '{p_name}'...")
-
-    # 1. Ordnerstruktur erstellen
-    dir_create(path(eval_dir, p_name))
-    dir_create(path(eval_dir, p_name, "01-rohdaten"))
-    dir_create(path(eval_dir, p_name, "02-abbildungen"))
-
-    # 2. Daten herunterladen
-    results <- possibly(
-        \(a) lime_export_results(a),
-        otherwise = "No Data"
-    )(p_survey_id)
-
-    if (is.list(results)) {
-        benelib::use_carto_theme()
-
-        # 3. Auswerten
-        evaluated <- lime_evaluate_ins
-        functiontruments(results)
-        plots <- lime_plot_instruments(evaluated)
-        filenames <- get_plot_filenames(results)
-
-        # 4. Rohdaten speichern
-        readr::write_excel_csv2(
-            get_evaluated_results(evaluated),
-            file = path(eval_dir, p_name, "01-rohdaten", "rohdaten.csv")
-        )
-
-        # 5. Plots speichern (nur wenn >1 Messzeitpunkt)
-        if (nrow(pluck(results, "data")) > 1) {
-            walk2(
-                plots,
-                filenames,
-                \(p, f) {
-                    benelib::save_custom_plot(
-                        f,
-                        p,
-                        path = path(eval_dir, p_name, "02-abbildungen", f),
-                        width = 18,
-                        dpi = 500
-                    )
-                }
-            )
-        } else {
-            cli::cli_alert_info(
-                "Nur ein Messzeitpunkt für '{p_name}'. Es werden keine Verlaufs-Abbildungen erstellt."
-            )
-        }
-
-        cli::cli_alert_success(
-            "Evaluation für '{p_name}' erfolgreich abgeschlossen!"
-        )
-    } else {
-        cli::cli_alert_warning(
-            "Bisher keine ausgefüllten Fragebögen für '{p_name}' vorhanden."
-        )
-    }
-}
-
-
 # --- HILFSFUNKTION 2: PATIENT SUCHEN ---
-# Diese Funktion übernimmt die if/else Logik für die Namenssuche,
-# da wir diese nun bei 'auswerten' UND bei 'einladen' benötigen.
 find_unique_patient <- function(patient_list, search_name) {
     filtered_list <- patient_list |>
         filter(str_detect(title, regex(search_name, ignore_case = TRUE)))
 
     if (nrow(filtered_list) == 1) {
-        return(filtered_list) # Gibt die Zeile mit dem eindeutigen Treffer zurück
+        return(filtered_list) # Gibt den 1-Zeilen-Dataframe zurück
     } else if (nrow(filtered_list) > 1) {
         cli::cli_alert_danger(
             "Der Suchbegriff '{search_name}' passt zu mehreren Einträgen. Bitte werde spezifischer.\n\n"
@@ -147,34 +84,126 @@ switch(
             filter(str_detect(title, ".*, .*")) |>
             arrange(title)
 
-        if (is.null(name)) {
-            # ALLE AUSWERTEN
+        if (!is.null(name)) {
+            # FILTERN AUF EINEN PATIENTEN
+            patient_list <- find_unique_patient(patient_list, name)
+            if (is.null(patient_list)) {
+                return(invisible()) # Beenden, da Name nicht gefunden / nicht eindeutig
+            }
+            cli::cli_alert_success(
+                "Eindeutiger Treffer: '{ patient_list$title }' gefunden!"
+            )
+        } else {
             cli::cli_alert_info(
                 "Werte alle {nrow(patient_list)} Patienten aus..."
             )
-            walk2(
-                patient_list$title,
-                patient_list$survey_id,
-                \(n, id) evaluate_single_patient(n, id, evaluation_directory),
-                .progress = TRUE
-            )
-            cli::cli_alert_success(
-                "Alle Auswertungen vollständig abgeschlossen!"
-            )
-        } else {
-            # EINZELNEN AUSWERTEN
-            match <- find_unique_patient(patient_list, name)
-            if (!is.null(match)) {
-                cli::cli_alert_success(
-                    "Eindeutiger Treffer: '{ match$title }' gefunden!"
-                )
-                evaluate_single_patient(
-                    match$title,
-                    match$survey_id,
-                    evaluation_directory
-                )
-            }
         }
+
+        patients <- patient_list |> pull(title)
+
+        # 1. Ordnerstrukturen erstellen
+        walk(patients, \(a) dir_create(path(evaluation_directory, a)))
+        walk(patients, \(a) {
+            dir_create(path(evaluation_directory, a, "01-rohdaten"))
+        })
+        walk(patients, \(a) {
+            dir_create(path(evaluation_directory, a, "02-abbildungen"))
+        })
+
+        # 2. Daten herunterladen
+        downloaded_data <- patient_list |>
+            mutate(
+                results = map(
+                    survey_id,
+                    possibly(
+                        function(survey_id) lime_export_results(survey_id),
+                        otherwise = "No Data"
+                    ),
+                    .progress = "Daten werden heruntergeladen"
+                ),
+                data_available = map_lgl(results, is_list)
+            )
+
+        # 3. Auswerten & Plotten
+        benelib::use_carto_theme()
+
+        evaluated_data <- downloaded_data |>
+            filter(data_available) |>
+            mutate(
+                evaluated = map(results, lime_evaluate_instruments),
+                plots = map(evaluated, lime_plot_instruments),
+                filenames = map(results, get_plot_filenames)
+            )
+
+        cli::cli_alert_success("Daten heruntergeladen und ausgewertet.")
+
+        # 4. Rohdaten speichern (via klassischer for-Schleife statt walk2)
+        for (i in seq_len(nrow(evaluated_data))) {
+            current_title <- evaluated_data$title[i]
+            current_evaluated <- evaluated_data$evaluated[[i]]
+
+            readr::write_excel_csv2(
+                get_evaluated_results(current_evaluated),
+                file = path(
+                    evaluation_directory,
+                    current_title,
+                    "01-rohdaten",
+                    "rohdaten.csv"
+                )
+            )
+        }
+
+        cli::cli_alert_success("Rohdaten erfolgreich abgespeichert.")
+
+        # 5. Plots speichern (nur bei >1 Messzeitpunkt)
+        evaluated_data_multiple <- evaluated_data |>
+            mutate(
+                multiple_measurements = map_lgl(results, \(a) {
+                    nrow(pluck(a, "data")) > 1
+                })
+            ) |>
+            filter(multiple_measurements)
+
+        if (nrow(evaluated_data_multiple) > 0) {
+            evaluated_data_unnested <- evaluated_data_multiple |>
+                unnest(c("plots", "filenames"))
+
+            # Komplett von pwalk auf for-Schleife umgestellt
+            for (i in seq_len(nrow(evaluated_data_unnested))) {
+                current_title <- evaluated_data_unnested$title[i]
+                current_plot <- evaluated_data_unnested$plots[[i]]
+                current_filename <- evaluated_data_unnested$filenames[i]
+
+                # DER WORKAROUND:
+                # Wir legen die Variable 'title' für den Moment der Speicherung
+                # explizit in den globalen Workspace. So findet ggplot2/thematic
+                # die fehlende Variable bei der Lazy Evaluation auf jeden Fall.
+                assign("title", current_title, envir = globalenv())
+
+                benelib::save_custom_plot(
+                    current_filename,
+                    current_plot,
+                    path = path(
+                        evaluation_directory,
+                        current_title,
+                        "02-abbildungen",
+                        current_filename
+                    ),
+                    width = 18,
+                    dpi = 500
+                )
+
+                # Den Workspace direkt wieder sauber machen
+                suppressWarnings(rm("title", envir = globalenv()))
+            }
+            cli::cli_alert_success("Abbildungen erfolgreich gespeichert.")
+        } else {
+            cli::cli_alert_info(
+                "Keine Verlaufs-Abbildungen erstellt (nur ein Messzeitpunkt vorhanden)."
+            )
+        }
+
+        cli::cli_alert_success("Alle Auswertungen vollständig abgeschlossen!")
     },
 
     # --------------------------------------------------------------------------
@@ -202,7 +231,6 @@ switch(
             cli::cli_alert_success(
                 "Eindeutiger Treffer: '{ match$title }' gefunden!"
             )
-            cli::cli_alert_info("Versende Einladung...")
 
             lime_invite_participants(match$survey_id)
         }
