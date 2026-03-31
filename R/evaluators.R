@@ -291,6 +291,39 @@ lime_eval_wai_sr <- function(data) {
 }
 
 
+#' Evaluate the LSAS
+#'
+#' Items must be named `lsas_<item_number>_<1|2>` with `1` and `2` differentiating the anxiety/fear and avoidance subscales in order to evaluate the instrument.
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_lsas <- function(data) {
+  data |>
+    dplyr::select(dplyr::starts_with("lsas_")) |>
+    dplyr::mutate(
+      lsas_fear_anxiety = rowSums(
+        dplyr::across(
+          stringr::str_glue(
+            "lsas_{ seq(1, 24) }_1"
+          )
+        )
+      ),
+      lsas_avoidance = rowSums(
+        dplyr::across(
+          stringr::str_glue(
+            "lsas_{ seq(1, 24) }_2"
+          )
+        )
+      ),
+      lsas_total = lsas_fear_anxiety + lsas_avoidance
+    )
+}
+
+
 #' Evaluate the BDI-II
 #'
 #' Items must be named `bdi_<item_number>` in order to evaluate the instrument. A total score is calculated as the item sum.

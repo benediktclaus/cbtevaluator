@@ -24,6 +24,7 @@ Other evaluators:
 \code{\link{lime_eval_bsl_23}()},
 \code{\link{lime_eval_gad_7}()},
 \code{\link{lime_eval_ies_r}()},
+\code{\link{lime_eval_lsas}()},
 \code{\link{lime_eval_mom_ai}()},
 \code{\link{lime_eval_mom_di}()},
 \code{\link{lime_eval_oci_r}()},

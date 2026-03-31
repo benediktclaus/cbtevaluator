@@ -1,4 +1,5 @@
 # cbtevaluator (development version)
+* Include the LSAS as instrument
 
 # cbtevaluator 2.0.0
 * Inlcude CLI app powered by `Rapp`. Survey evaluations and invitations are now triggerd by this. Make sure to run `install_cbtevaluator_cli()` after package installation once.

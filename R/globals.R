@@ -65,5 +65,8 @@ globalVariables(unique(c(
   "total_score",
   "survey_id",
   "bdiv_total",
-  "gad7_total"
+  "gad7_total",
+  "lsas_fear_anxiety",
+  "lsas_avoidance",
+  "lsas_total"
 )))

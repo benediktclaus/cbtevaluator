@@ -407,6 +407,63 @@ lime_plot_wai_sr <- function(data) {
 }
 
 
+#' Plot results of the LSAS
+#'
+#' The data supplied must contain the columns `lsas_fear_anxiety`, `lsas_avoidance`, and `lsas_total`.
+#'
+#' @param data A tibble
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_lsas <- function(data) {
+  subscale_data <- data |>
+    dplyr::select(date, lsas_fear_anxiety, lsas_avoidance) |>
+    tidyr::pivot_longer(
+      cols = -date,
+      names_to = "scale",
+      values_to = "score"
+    ) |>
+    dplyr::mutate(
+      scale = dplyr::case_when(
+        scale == "lsas_fear_anxiety" ~ "Furcht/Angst",
+        scale == "lsas_avoidance" ~ "Vermeidung"
+      ),
+      scale = forcats::as_factor(scale)
+    )
+
+  subscale_plot <- subscale_data |>
+    ggplot2::ggplot(ggplot2::aes(date, score, color = scale)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_line() +
+    ggplot2::expand_limits(y = 0) +
+    ggplot2::scale_x_date(labels = scales::label_date_short()) +
+    ggplot2::labs(
+      x = "Datum",
+      y = "Skalenwert",
+      title = "Liebowitz Social Anxiety Scale",
+      subtitle = "Symptomschwere sozialer \u00c4ngste",
+      color = NULL
+    )
+
+  total_plot <- data |>
+    ggplot2::ggplot(ggplot2::aes(date, lsas_total)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_line() +
+    ggplot2::expand_limits(y = 0) +
+    ggplot2::scale_x_date(labels = scales::label_date_short()) +
+    ggplot2::labs(
+      x = "Datum",
+      y = "Gesamtwert"
+    )
+
+  subscale_plot +
+    total_plot +
+    patchwork::plot_layout(axes = "collect", guides = "collect")
+}
+
+
 #' Plot results of the BDI-II
 #'
 #' The data supplied must contain the column `bdi_ii_total`.
