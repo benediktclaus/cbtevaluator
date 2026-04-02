@@ -25,6 +25,7 @@ Other plotters:
 \code{\link{lime_plot_gad_7}()},
 \code{\link{lime_plot_ies_r}()},
 \code{\link{lime_plot_lsas}()},
+\code{\link{lime_plot_mk_hai}()},
 \code{\link{lime_plot_mom_ai}()},
 \code{\link{lime_plot_mom_di}()},
 \code{\link{lime_plot_oci_r}()},

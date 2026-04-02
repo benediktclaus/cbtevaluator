@@ -68,5 +68,6 @@ globalVariables(unique(c(
   "gad7_total",
   "lsas_fear_anxiety",
   "lsas_avoidance",
-  "lsas_total"
+  "lsas_total",
+  "mkhai_total"
 )))

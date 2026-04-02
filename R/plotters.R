@@ -193,6 +193,30 @@ lime_plot_wi_d <- function(data, ...) {
 }
 
 
+#' Plot results of the MK-HAI
+#'
+#' The data supplied must contain the column `mkhai_total`.
+#'
+#' @inheritParams .plot_single_results
+#' @param ... Additional arguments passed to .plot_single_results
+#'
+#' @family plotters
+#'
+#' @return A `ggplot2` object
+#' @export
+lime_plot_mk_hai <- function(data, ...) {
+  .plot_single_results(
+    data,
+    variable = mkhai_total,
+    ylab = "Gesamtwert",
+    title = "MK-HAI",
+    subtitle = "Fragebogen zur Erfassung von gesundheitsbezogenen Sorgen",
+    ymax = 56,
+    ...
+  )
+}
+
+
 #' Plot results of the EDE-Q
 #'
 #' The data supplied must contain the columns `Restraint`, `Eating Concern`,

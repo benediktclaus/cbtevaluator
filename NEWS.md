@@ -1,4 +1,5 @@
 # cbtevaluator (development version)
+* Implement the MK-HAI as instrument
 
 # cbtevaluator 2.1.0
 * Include the LSAS as instrument

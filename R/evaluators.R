@@ -110,6 +110,22 @@ lime_eval_wi_d <- function(data) {
 }
 
 
+#' Evaluate the MK-HAI
+#'
+#' Items must be named `mkhai_<item-number>`. Calculated is the total sum score
+#' in variable `mkhai_total`
+#'
+#' @param data A tibble
+#'
+#' @family evaluators
+#'
+#' @return A tibble
+#' @export
+lime_eval_mk_hai <- function(data) {
+  .eval_sum_score(data, identifier = "mkhai")
+}
+
+
 #' Evaluate the EDE-Q
 #'
 #' Items must be named `edeq_<item-number>`. Calculated are subscale means, the
