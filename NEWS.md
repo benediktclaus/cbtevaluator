@@ -1,4 +1,4 @@
-# cbtevaluator (development version)
+# cbtevaluator 2.2.0
 * Implement the MK-HAI as instrument
 
 # cbtevaluator 2.1.0
